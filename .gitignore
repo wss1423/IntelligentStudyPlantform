@@ -1,0 +1,89 @@
+### Maven ###
+target/
+**/target/
+*.class
+*.jar
+*.war
+*.zip
+*.tar.gz
+*.rar
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+
+### IDE - IntelliJ IDEA ###
+.idea/
+*.iml
+*.iws
+*.ipr
+.settings/
+.project
+.classpath
+.factorypath
+.vscode/
+*.swp
+*.swo
+*~
+
+### IDEA - 保留必要配置 ###
+!.idea/.gitignore
+
+### OS ###
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*.lnk
+desktop.ini
+
+### Logs ###
+logs/
+*.log
+*.out
+*.console
+
+### Env / Secrets ###
+*.env
+.env.local
+.env.*.local
+*.p12
+*.pfx
+*.jks
+*.key
+*.pem
+*.cer
+**/credentials*.yml
+**/credentials*.yaml
+**/credentials*.properties
+
+### Node / Frontend (if any) ###
+node_modules/
+dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-lock.yaml
+yarn.lock
+package-lock.json
+
+### Testing ###
+htmlReport/
+test-output/
+
+### Temp ###
+*.tmp
+*.temp
+*.bak
+*.orig
+*.old
+*.swp
+*~
+.DS_Store
