@@ -30,7 +30,6 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public Flux<ChatEventVO> chat(String question, String sessionId) {
-        GENERATE_STATUS.put(sessionId,true);
         return this.chatClient.prompt()
                 .system(promptSystem -> promptSystem
                         .text(this.systemPromptConfig.getChatSystemMessage().get()) // 设置系统提示语
