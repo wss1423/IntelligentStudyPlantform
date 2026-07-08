@@ -14,4 +14,9 @@ public interface ChatService {
      */
     Flux<ChatEventVO> chat(String question, String sessionId);
 
+    /**
+     * 中断聊天
+     * @param sessionId 会话ID
+     */
+    void stop(String sessionId);
 }
