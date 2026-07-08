@@ -87,3 +87,4 @@ test-output/
 *.swp
 *~
 .DS_Store
+/tj-aigc/.gitattributes
