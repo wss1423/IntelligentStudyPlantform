@@ -1,6 +1,7 @@
 package com.tianji.aigc.controller;
 
 import com.tianji.aigc.service.ChatSessionService;
+import com.tianji.aigc.vo.MessageVO;
 import com.tianji.aigc.vo.SessionVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -30,4 +31,13 @@ public class SessionController {
         return this.chatSessionService.getHotSessions(num);
     }
 
+    /**
+     *  根据会话id获取查询对话
+     * @param sessionId
+     * @return
+     */
+    @GetMapping("/{sessionId}")
+    public List<MessageVO> queryBySessionId(@PathVariable String sessionId) {
+        return this.chatSessionService.queryBySessionId(sessionId);
+    }
 }

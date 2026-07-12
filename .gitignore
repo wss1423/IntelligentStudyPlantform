@@ -88,3 +88,11 @@ test-output/
 *~
 .DS_Store
 /tj-aigc/.gitattributes
+/tj-aigc/.mvn/wrapper/maven-wrapper.properties
+### 消息服务的配置文件不再上传
+/tj-message/tj-message-service/src/main/resources/application.yml
+/tj-message/tj-message-service/src/main/resources/application-dev.yml
+/tj-message/tj-message-service/src/main/resources/application-local.yml
+/tj-message/tj-message-service/src/main/resources/application-test.yml
+### 支付服务的配置文件不宰上传
+/tj-pay/tj-pay-service/src/main/resources.*
