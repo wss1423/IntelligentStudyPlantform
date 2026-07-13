@@ -2,6 +2,7 @@ package com.tianji.aigc.memory;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.convert.Convert;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.tianji.aigc.config.ToolResultHolder;
 import com.tianji.aigc.constants.Constant;
@@ -26,15 +27,16 @@ public class MessageUtil {
         if (message instanceof AssistantMessage assistantMessage) {
             myMessage.setToolCalls(assistantMessage.getToolCalls());
 
-            // 通过MessageId 获取 requestId 再通过requestId 获取参数列表，如果有就存储起来
-            // 最后删除messageId对应的数据
-            var messageId = Convert.toStr(assistantMessage.getMetadata().get(Constant.ID));
+            // 从metadata中获取requestId，再通过requestId获取参数列表，如果有就存储起来
+            // 最后删除requestId对应的数据
             var requestId = Convert.toStr(assistantMessage.getMetadata().get(Constant.REQUEST_ID));
-            var param = ToolResultHolder.get(requestId);
-            if (ObjectUtils.isNotEmpty(param)) {
-                myMessage.setParams(param);
+            if (StrUtil.isNotBlank(requestId)) {
+                var param = ToolResultHolder.get(requestId);
+                if (ObjectUtils.isNotEmpty(param)) {
+                    myMessage.setParams(param);
+                }
+                ToolResultHolder.remove(requestId);
             }
-            ToolResultHolder.remove(requestId);
         }
 
         if (message instanceof ToolResponseMessage toolResponseMessage) {

@@ -43,11 +43,11 @@ public class SpringAIConfig {
         return new JDBCChatMemoryRepository();
     }
 
-    @Bean
-    @ConditionalOnProperty(prefix = "tj.ai.memory",value = "type",havingValue = "MongoDB")
-    public MongoDBChatMemoryRepository mongoDBChatMemoryRepository() {
-        return new MongoDBChatMemoryRepository();
-    }
+//    @Bean
+//    @ConditionalOnProperty(prefix = "tj.ai.memory",value = "type",havingValue = "MongoDB")
+//    public MongoDBChatMemoryRepository mongoDBChatMemoryRepository() {
+//        return new MongoDBChatMemoryRepository();
+//    }
 
     @Bean
     public ChatMemory chatMemory(ChatMemoryRepository chatMemoryRepository) {
