@@ -94,5 +94,5 @@ test-output/
 /tj-message/tj-message-service/src/main/resources/application-dev.yml
 /tj-message/tj-message-service/src/main/resources/application-local.yml
 /tj-message/tj-message-service/src/main/resources/application-test.yml
-### 支付服务的配置文件不宰上传
-/tj-pay/tj-pay-service/src/main/resources.*
+### 支付服务的配置文件不再上传
+/tj-pay/tj-pay-service/src/main/resources/

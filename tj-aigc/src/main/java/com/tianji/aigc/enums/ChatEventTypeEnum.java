@@ -10,7 +10,8 @@ import lombok.Getter;
 public enum ChatEventTypeEnum implements BaseEnum {
     DATA(1001, "数据事件"),
     STOP(1002, "停止事件"),
-    PARAM(1003, "参数事件");
+    PARAM(1003, "参数事件"),
+    SESSION(1004, "会话事件");
 
     private final int value;
     private final String desc;
