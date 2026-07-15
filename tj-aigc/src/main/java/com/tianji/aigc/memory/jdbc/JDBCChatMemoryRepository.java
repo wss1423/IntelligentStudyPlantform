@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * 基于JDBC的聊天记录存储
  */
-public class JDBCChatMemoryRepository implements ChatMemoryRepository {
+public class JDBCChatMemoryRepository implements ChatMemoryRepository{
 
     @Resource
     private ChatRecordService chatRecordService;

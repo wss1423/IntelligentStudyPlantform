@@ -70,6 +70,15 @@ public interface CourseClient {
     );
 
     /**
+     * 根据课程名称模糊搜索课程id列表
+     *
+     * @param name 课程名称关键词
+     * @return 匹配的课程id列表
+     */
+    @GetMapping("/course/name")
+    List<Long> queryCourseIdByName(@RequestParam("name") String name);
+
+    /**
      * 获取课程基础信息
      *
      * @param id  课程id

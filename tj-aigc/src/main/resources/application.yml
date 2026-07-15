@@ -44,5 +44,5 @@ tj:
                     data-id: knowledge-agent-system-message.txt
         memory:
             max: 100 # 存储的最大聊天数
-            type: MySQL
+            type: Redis
         chat-type: ROUTE

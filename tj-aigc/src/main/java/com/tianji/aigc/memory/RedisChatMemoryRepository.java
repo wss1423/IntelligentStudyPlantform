@@ -17,7 +17,7 @@ import java.util.Set;
 /**
  * 基于Redis实现的ChatMemoryRepository
  */
-public class RedisChatMemoryRepository implements ChatMemoryRepository {
+public class RedisChatMemoryRepository implements ChatMemoryRepository , MyChatMemoryRepository {
 
     // 默认redis中key的前缀
     public static final String DEFAULT_PREFIX = "CHAT:";
@@ -83,6 +83,7 @@ public class RedisChatMemoryRepository implements ChatMemoryRepository {
      *
      * @param conversationId 对话的唯一标识符
      */
+    @Override
     public void optimization(String conversationId) {
         var redisKey = this.getKey(conversationId);
         var listOps = this.stringRedisTemplate.boundListOps(redisKey);
