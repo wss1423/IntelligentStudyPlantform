@@ -9,6 +9,9 @@ import com.tianji.aigc.constants.Constant;
 import com.tianji.aigc.enums.ChatEventTypeEnum;
 
 import com.tianji.aigc.service.ChatService;
+import com.tianji.aigc.tools.CourseTools;
+import com.tianji.aigc.tools.OrderTools;
+import com.tianji.aigc.service.ChatSessionService;
 import com.tianji.aigc.vo.ChatEventVO;
 import com.tianji.common.utils.CollUtils;
 import com.tianji.common.utils.UserContext;
@@ -20,6 +23,7 @@ import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.messages.AssistantMessage;
 import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.VectorStore;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -31,6 +35,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@ConditionalOnProperty(prefix = "tj.ai",name = "chat-type",havingValue = "ENHANCE")
 public class ChatServiceImpl implements ChatService {
 
     private final ChatClient chatClient;
@@ -39,7 +44,7 @@ public class ChatServiceImpl implements ChatService {
 
     // 存储大模型的生成状态，这里采用ConcurrentHashMap是确保线程安全
     // 目前的版本暂时用Map实现，如果考虑分布式环境的话，可以考虑用redis来实现
-    private static final Map<String, Boolean> GENERATE_STATUS = new ConcurrentHashMap<>();
+//    private static final Map<String, Boolean> GENERATE_STATUS = new ConcurrentHashMap<>();
     // 优化为使用Redis来实现 0710 发现存在bug，暂时回退至不使用Redis的版本 0712已修复
     private final StringRedisTemplate redisTemplate;
 
@@ -52,6 +57,13 @@ public class ChatServiceImpl implements ChatService {
 
     // 向量存储
     private final VectorStore vectorStore;
+
+    // 会话服务，0714主要用来更新时间
+    private final ChatSessionService chatSessionService;
+
+    // 工具
+    private final CourseTools courseTools;
+    private final OrderTools orderTools;
 
     @Override
     public Flux<ChatEventVO> chat(String question, String sessionId) {
@@ -78,6 +90,9 @@ public class ChatServiceImpl implements ChatService {
                 .searchRequest(SearchRequest.builder().similarityThreshold(0.6d).topK(6).build())
                 .build();
 
+        // 更新会话标题或者更新时间
+        this.chatSessionService.update(sessionId,question,userId);
+
         var mainFlux = this.chatClient.prompt()
                 .system(promptSystem -> promptSystem
                         .text(this.systemPromptConfig.getChatSystemMessage().get()) // 设置系统提示语
@@ -88,6 +103,7 @@ public class ChatServiceImpl implements ChatService {
                                     // 设置RAG增强
                                     .advisors(qaAdvisor)
                                     .param(ChatMemory.CONVERSATION_ID, conversationId))
+                .tools(this.courseTools,this.orderTools)
 //                .toolContext(Map.of(Constant.REQUEST_ID, requestId))//通过工具上下文传递参数
                 .toolContext(Map.of(Constant.REQUEST_ID,requestId,Constant.USER_ID,userId))
                 .user(question)
