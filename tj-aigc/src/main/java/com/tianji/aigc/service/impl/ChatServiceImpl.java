@@ -39,6 +39,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ChatServiceImpl implements ChatService {
 
     private final ChatClient chatClient;
+    private final ChatClient openAiChatClient;
 
     private final SystemPromptConfig systemPromptConfig;
 
@@ -193,5 +194,14 @@ public class ChatServiceImpl implements ChatService {
         // 移除标记
         var hashOps = this.redisTemplate.boundHashOps(GENERATE_STATE_KEY);
         hashOps.delete(sessionId);
+    }
+
+    @Override
+    public String chatText(String question) {
+        return this.openAiChatClient.prompt()
+                .system(promptSystem -> promptSystem.text(this.systemPromptConfig.getTextSystemMessage().get()))
+                .user(question)
+                .call()
+                .content();
     }
 }
