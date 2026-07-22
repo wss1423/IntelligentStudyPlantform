@@ -16,7 +16,8 @@
 | **熔断降级** | Sentinel |
 | **分布式事务** | Seata 1.5.1 |
 | **分布式调度** | XXL-Job 2.3.1 |
-| **AI** | Spring AI 1.0.0-M6 |
+| **AI** | Spring AI 1.0.0-M6, Spring AI Alibaba |
+| **向量数据库** | PostgreSQL pgvector, Redis VectorStore, Elasticsearch VectorStore |
 | **消息服务** | 腾讯云 SMS, 阿里云短信 |
 | **对象存储** | 阿里云 OSS, 腾讯云 COS |
 | **媒体处理** | 腾讯云 VOD (点播) |
@@ -54,7 +55,8 @@ tjxt/
 │   └── tj-message-service      # 消息核心服务（短信、站内信）
 ├── tj-search         # 搜索服务（Elasticsearch 全文检索）
 ├── tj-remark         # 评价服务（课程评价、评分）
-└── tj-data           # 数据中心（运营数据看板、排行榜）
+├── tj-data           # 数据中心（运营数据看板、排行榜）
+└── tj-aigc           # AIGC智能助手服务（多智能体、RAG、Tool Calling）
 ```
 
 ## 核心功能
@@ -109,6 +111,14 @@ tjxt/
 ### 10. 运营数据
 - 数据看板
 - 排行榜
+
+### 11. AI智能助手 (AIGC)
+- **多智能体框架**：基于Spring AI设计Multi-Agent架构，包含路由、咨询、推荐、购买、知识问答5类智能体协同工作
+- **RAG检索增强**：集成PostgreSQL pgvector扩展，实现课程数据向量化存储与语义检索，支持Redis/Elasticsearch VectorStore
+- **Tool Calling业务编排**：通过Tool Calling机制将课程查询、订单处理等后端服务抽象为AI可调用工具
+- **流式输出与会话管理**：SSE流式输出，支持会话中断与恢复；聊天记忆持久化（Redis/MySQL/MongoDB）
+- **多模型支持**：支持DashScope（阿里百炼）、OpenAI等多种大模型，Nacos动态配置系统提示词
+- **语音交互**：支持语音合成与语音识别功能
 
 ## 基础设施
 
@@ -176,6 +186,7 @@ tjxt/
 | tj-search | 8111 |
 | tj-remark | 8112 |
 | tj-data | 8113 |
+| tj-aigc | 8094 |
 
 ## 许可证
 
